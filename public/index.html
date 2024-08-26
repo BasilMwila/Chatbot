@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with LLM</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include custom styles -->
+    <style>
+        /* Customize chat bubble styles */
+        .chat-bubble {
+            border-radius: 12px;
+            max-width: 70%; /* Adjust as needed */
+        }
+
+        .user-bubble {
+            background-color: #DCF8C6; /* Light green for user messages */
+            align-self: flex-end;
+        }
+
+        .bot-bubble {
+            background-color: #EDE9FE; /* Light purple for bot messages */
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen">
+    <div class="p-4 space-y-4 gap-10" id="chat-area">
+        <!-- Chat messages will be appended here -->
+    </div>
+    <div class="bg-gray-200 px-4 py-3 flex items-center fixed bottom-0 left-0 w-full">
+        <input type="text" id="query" class="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md py-2 px-3" placeholder="Type your message...">
+        <button id="send-btn" class="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+            Send
+        </button>
+    </div>
+    
+    <script>
+        document.getElementById('send-btn').addEventListener('click', async () => {
+            const query = document.getElementById('query').value;
+            if (!query.trim()) return;
+
+            // Add user message
+            const chatArea = document.getElementById('chat-area');
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words';
+            userBubble.innerText = query;
+            chatArea.appendChild(userBubble);
+
+            try {
+    const response = await fetch('/api/ask-query', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+    });
+    const data = await response.json();
+
+    // Create a parent div for the bot's response
+    const botMessageContainer = document.createElement('div');
+    botMessageContainer.className = 'flex justify-end mb-4'; // Adjust as needed
+
+    // Add LLM response inside the parent div
+    const botBubble = document.createElement('div');
+    botBubble.className = 'chat-bubble bot-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words';
+    botBubble.innerText = data.reply || 'No response';
+
+    // Append the botBubble to the parent div
+    botMessageContainer.appendChild(botBubble);
+
+    // Append the parent div to the chat area
+    chatArea.appendChild(botMessageContainer);
+
+    // Scroll to the bottom
+    chatArea.scrollTop = chatArea.scrollHeight;
+} catch (error) {
+    // Create a parent div for the error message
+    const errorMessageContainer = document.createElement('div');
+    errorMessageContainer.className = 'flex justify-end mb-4'; // Adjust as needed
+
+    // Add error message inside the parent div
+    const errorBubble = document.createElement('div');
+    errorBubble.className = 'chat-bubble bot-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words';
+    errorBubble.innerText = 'An error occurred';
+
+    // Append the errorBubble to the parent div
+    errorMessageContainer.appendChild(errorBubble);
+
+    // Append the parent div to the chat area
+    chatArea.appendChild(errorMessageContainer);
+
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+
+            // Clear input
+            document.getElementById('query').value = '';
+        });
+    </script>
+</body>
+</html>

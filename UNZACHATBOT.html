@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Window</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Include custom styles -->
+    <style>
+        /* Customize chat bubble styles */
+        .chat-bubble {
+            border-radius: 12px;
+            max-width: 70%; /* Adjust as needed */
+        }
+
+        .user-bubble {
+            background-color: #DCF8C6; /* Light green for user messages */
+        }
+
+        .bot-bubble {
+            background-color: #EDE9FE; /* Light purple for bot messages */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="w-96 bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Chat header -->
+        <div class="bg-gray-200 px-4 py-3 flex justify-between items-center">
+            <p class="font-semibold text-lg text-gray-800">Chat with University of Zambia Bot</p>
+            <button class="text-gray-600 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Chat messages -->
+        <div class="p-4 space-y-4">
+            <!-- User message -->
+            <div class="flex justify-end">
+                <div
+                    class="chat-bubble user-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words">
+                    Hi! Welcome to UNZA how may i help you?
+                </div>
+            </div>
+            <!-- Bot message -->
+            <div class="flex justify-start">
+                <div
+                    class="chat-bubble bot-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words">
+                    How do i enroll in an undergraduate program at unza?
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <div
+                    class="chat-bubble user-bubble text-sm py-2 px-4 rounded-lg text-gray-700 inline-block break-words">
+                    To enroll in an undergraduate program at the University of Zambia (UNZA), follow these steps:
+
+                    Obtain the Application Form:
+                    
+                    You can apply online through the UNZA website.
+                    Alternatively, you can download the application form from the UNZA website or obtain it from any of the UNZA locations listed below.
+                    Complete the Application Form:
+                    
+                    Fill out the application form and attach the relevant documents as stated on the form.
+                </div>
+            </div>
+        </div>
+        <!-- Chat input -->
+        <div class="bg-gray-200 px-4 py-3 flex items-center">
+            <input type="text"
+                class="w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300 rounded-md py-2 px-3"
+                placeholder="Type your message...">
+            <button class="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+                Send
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>
